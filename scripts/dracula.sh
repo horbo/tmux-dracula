@@ -338,6 +338,12 @@ main() {
       IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-synchronize-panes-colors" "cyan dark_gray")
       script="#($current_dir/synchronize_panes.sh $show_synchronize_panes_label)"
 
+    elif [ $plugin = "mode-indicator" ]; then
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-mode-indicator-colors" "light_purple dark_gray")
+      # emits a tmux format, not a job: modes have to render on every status
+      # redraw, not on the status-interval tick
+      script="$("$current_dir"/mode_indicator.sh)"
+
     elif [ $plugin = "libreview" ]; then
       IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-libre-colors" "white dark_gray")
       script="#($current_dir/libre.sh $show_libreview)"
