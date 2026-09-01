@@ -23,6 +23,7 @@
   - [kubernetes-context](#kubernetes-context---up)
   - [libreview](#libreview---up)
   - [mac-player](#mac-player---up)
+  - [mode-indicator](#mode-indicator---up)
   - [mpc](#mpc---up)
   - [network](#network---up)
   - [network-public-ip](#network-public-ip---up)
@@ -618,6 +619,41 @@ set -g @dracula-mac-player-remote-play-pause "P"
 set -g @dracula-mac-player-remote-back "R"
 set -g @dracula-mac-player-remote-next "N"
 ```
+
+### mode-indicator - [up](#table-of-contents)
+
+This widget displays the currently active tmux mode: whether you pressed the prefix and tmux is waiting for the next key, or whether the pane is in copy mode.
+
+Unlike the other widgets this one is not a background job, it renders a tmux format directly. It therefore reacts on every status redraw instead of on the refresh interval, which means the indicator shows up the instant you hit the prefix and `@dracula-refresh-rate` has no effect on it. The format is built once, while the plugin loads, so changing any of the options below only takes effect after you reload your configuration.
+
+To change the labels:
+
+```bash
+set -g @dracula-mode-indicator-prefix-label "󰌌 PREFIX"
+set -g @dracula-mode-indicator-copy-label "󰆏 COPY"
+```
+
+A third mode is available for synchronized panes. It is disabled per default, because the [synchronize-panes](#synchronize-panes---up) widget already covers it:
+
+```bash
+set -g @dracula-mode-indicator-sync-label "󰓦 SYNC"  # default: false
+```
+
+Set a label to `false` to hide that mode:
+
+```bash
+set -g @dracula-mode-indicator-copy-label false
+```
+
+Nerdfont icons to consider:
+
+```
+prefix: 󰌌 
+copy:   󰆏 
+sync:   󰓦 
+```
+
+**Note:** when no mode is active the widget produces no output, so together with `@dracula-show-empty-plugins false` it disappears from the status bar entirely.
 
 ### mpc - [up](#table-of-contents)
 
