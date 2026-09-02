@@ -42,6 +42,7 @@
   - [tmux-ram-usage](#tmux-ram-usage---up)
   - [uptime](#uptime---up)
   - [weather](#weather---up)
+  - [zoom-indicator](#zoom-indicator---up)
   - [custom:script-name](#customscript-name---up)
 
 ## Configuration - [up](#table-of-contents)
@@ -1007,6 +1008,32 @@ This is especially useful together with `set -g @dracula-show-empty-plugins fals
 ```bash
 set -g @dracula-weather-hide-errors true
 ```
+
+### zoom-indicator - [up](#table-of-contents)
+
+This widget displays a label while the current pane is zoomed (`prefix + z`).
+
+Unlike the other widgets this one is not a background job, it renders a tmux format directly. It therefore reacts on every status redraw instead of on the refresh interval, which means the label shows up the instant you zoom and `@dracula-refresh-rate` has no effect on it. The format is built once, while the plugin loads, so changing the option below only takes effect after you reload your configuration.
+
+To change the label:
+
+```bash
+set -g @dracula-zoom-indicator-label "󰊓 ZOOM"
+```
+
+Set it to `false` to hide the widget:
+
+```bash
+set -g @dracula-zoom-indicator-label false
+```
+
+Nerdfont icon to consider:
+
+```
+zoom: 󰊓 
+```
+
+**Note:** while the pane is not zoomed the widget produces no output, so together with `@dracula-show-empty-plugins false` it disappears from the status bar entirely.
 
 ### custom:script-name - [up](#table-of-contents)
 

@@ -344,6 +344,12 @@ main() {
       # redraw, not on the status-interval tick
       script="$("$current_dir"/mode_indicator.sh)"
 
+    elif [ $plugin = "zoom-indicator" ]; then
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-zoom-indicator-colors" "orange dark_gray")
+      # emits a tmux format, not a job: the zoom flag has to render on every
+      # status redraw, not on the status-interval tick
+      script="$("$current_dir"/zoom_indicator.sh)"
+
     elif [ $plugin = "libreview" ]; then
       IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-libre-colors" "white dark_gray")
       script="#($current_dir/libre.sh $show_libreview)"
