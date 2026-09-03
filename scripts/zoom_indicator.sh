@@ -14,15 +14,6 @@ escape_label() {
   echo "$label"
 }
 
-get_label() {
-  local label
-  label=$(get_tmux_option "$1" "$2")
-  if [ "$label" == false ]; then
-    label=""
-  fi
-  echo "$label"
-}
-
 main()
 {
   zoom_label=$(get_label "@dracula-zoom-indicator-label" "󰊓 ZOOM")

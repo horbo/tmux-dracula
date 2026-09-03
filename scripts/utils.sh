@@ -11,6 +11,16 @@ get_tmux_option() {
   fi
 }
 
+# a label set to `false` means the user disabled it, normalize that to empty
+get_label() {
+  local label
+  label=$(get_tmux_option "$1" "$2")
+  if [ "$label" == false ]; then
+    label=""
+  fi
+  echo "$label"
+}
+
 get_tmux_window_option() {
   local option="$1"
   local default_value="$2"

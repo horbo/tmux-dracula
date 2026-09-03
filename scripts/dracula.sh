@@ -350,6 +350,10 @@ main() {
       # status redraw, not on the status-interval tick
       script="$("$current_dir"/zoom_indicator.sh)"
 
+    elif [ $plugin = "caffeinate" ]; then
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-caffeinate-colors" "yellow dark_gray")
+      script="#($current_dir/caffeinate.sh)"
+
     elif [ $plugin = "libreview" ]; then
       IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-libre-colors" "white dark_gray")
       script="#($current_dir/libre.sh $show_libreview)"

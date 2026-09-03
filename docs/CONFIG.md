@@ -10,6 +10,7 @@
 - [Plugins](#Plugins)
   - [attached-clients](#attached-clients---up)
   - [battery](#battery---up)
+  - [caffeinate](#caffeinate---up)
   - [compact-alt](#compact-alt---up)
   - [continuum](#continuum---up)
   - [cpu-arch](#cpu-arch---up)
@@ -247,6 +248,48 @@ additionally you can specify the separator between each battery like so:
 ```bash
 set -g @dracula-battery-separator "; "
 ```
+
+### caffeinate - [up](#table-of-contents)
+
+This widget displays a label while something is keeping the machine awake, so a forgotten `caffeinate` does not silently drain your battery all day.
+
+The detection is a process name match, borrowed from [eran-rom/tmux-caffeinated](https://github.com/eran-rom/tmux-caffeinated): the widget looks for `caffeinate` (macOS) as well as `systemd-inhibit` and `caffeine` (Linux).
+
+To change the label:
+
+```bash
+set -g @dracula-caffeinate-label " CAFFEINATED"
+```
+
+Per default nothing is shown while no such process runs. To display a label for that state as well:
+
+```bash
+set -g @dracula-caffeinate-off-label "DECAF"  # default: false
+```
+
+Set either label to `false` to hide that state.
+
+The matched processes are an extended regular expression, matched against the whole process name (`pgrep -x`). A desktop environment that takes an inhibitor lock without leaving such a process behind (GNOME and KDE do this for their own "keep awake" toggles) is therefore not detected. To watch a different set of processes:
+
+```bash
+set -g @dracula-caffeinate-process "caffeinate|systemd-inhibit|caffeine"
+```
+
+To override the global `@dracula-refresh-rate` for this widget only:
+
+```bash
+set -g @dracula-caffeinate-refresh-rate 5
+```
+
+Nerdfont icons to consider:
+
+```
+coffee:       
+coffee (md): 󰅶 
+mug:         󰛊 
+```
+
+**Note:** while nothing keeps the machine awake the widget produces no output, so together with `@dracula-show-empty-plugins false` it disappears from the status bar entirely.
 
 ### compact-alt - [up](#table-of-contents)
 
