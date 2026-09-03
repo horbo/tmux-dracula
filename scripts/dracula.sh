@@ -354,6 +354,12 @@ main() {
       IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-caffeinate-colors" "yellow dark_gray")
       script="#($current_dir/caffeinate.sh)"
 
+    elif [ $plugin = "agenmux" ]; then
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-agenmux-colors" "dark_purple white")
+      # the segment foreground is handed over, the widget needs it to close
+      # agenmux' own color spans without resetting the segment background
+      script="#($current_dir/agenmux.sh ${!colors[1]})"
+
     elif [ $plugin = "libreview" ]; then
       IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-libre-colors" "white dark_gray")
       script="#($current_dir/libre.sh $show_libreview)"

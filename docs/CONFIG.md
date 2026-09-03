@@ -8,6 +8,7 @@
   - [Left Icon](#left-icon---up)
 - [Color theming](/docs/color_theming/README.md)
 - [Plugins](#Plugins)
+  - [agenmux](#agenmux---up)
   - [attached-clients](#attached-clients---up)
   - [battery](#battery---up)
   - [caffeinate](#caffeinate---up)
@@ -183,6 +184,26 @@ This allows for the use of custom themes like catppuccin or gruvbox.
 For everything regarding colors, please refer to [the color theming directory](/docs/color_theming/README.md).
 
 ## Plugins
+
+### agenmux - [up](#table-of-contents)
+
+This widget displays the agent summary of [agenmux](https://github.com/snirt/agenmux), e.g. `⣿1 ⣾2 ⣿1` in red/yellow/green for blocked/working/idle agents.
+
+agenmux normally renders itself by substituting the `#{agenmux}` placeholder in `status-left`/`status-right`. That cannot work here, because dracula rebuilds `status-right` from scratch and drops the placeholder. This widget calls the agenmux binary directly instead, so the plugin order in your configuration does not matter.
+
+The binary is looked up in the agenmux checkout next to this plugin, then on `PATH`. Point agenmux' own option at it when it lives somewhere else:
+
+```bash
+set -g @agenmux-bin "$HOME/.tmux/plugins/agenmux/target/release/agenmux"
+```
+
+To change the colors:
+
+```bash
+set -g @dracula-agenmux-colors "dark_purple white"
+```
+
+**Note:** with no agents running the widget produces no output, so together with `@dracula-show-empty-plugins false` it disappears from the status bar entirely. The same happens when the binary cannot be found.
 
 ### attached-clients - [up](#table-of-contents)
 
