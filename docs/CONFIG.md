@@ -203,6 +203,12 @@ To change the colors:
 set -g @dracula-agenmux-colors "dark_purple white"
 ```
 
+Unlike the other job based widgets this one never exits: tmux keeps the most recent line of a running command and redraws the status line as new lines arrive, so the counters follow the agents instead of the `status-interval` tick. tmux caps that at one redraw per second, which is also the poll interval used here (`@dracula-refresh-rate` does not apply):
+
+```bash
+set -g @dracula-agenmux-refresh-rate 1
+```
+
 **Note:** with no agents running the widget produces no output, so together with `@dracula-show-empty-plugins false` it disappears from the status bar entirely. The same happens when the binary cannot be found.
 
 ### attached-clients - [up](#table-of-contents)

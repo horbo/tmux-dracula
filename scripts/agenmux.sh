@@ -23,7 +23,7 @@ agenmux_bin() {
 
 main()
 {
-  local bin fg
+  local bin fg rate
   bin=$(agenmux_bin)
 
   if [ ! -x "$bin" ]; then
@@ -34,7 +34,20 @@ main()
   # status-style and would punch a hole in the segment background
   fg="${1:-#f8f8f2}"
 
-  "$bin" status | sed "s/#\[default\]/#[fg=$fg]/g"
+  rate=$(get_tmux_option "@dracula-agenmux-refresh-rate" 1)
+  case "$rate" in
+    '' | *[!0-9.]*) rate=1 ;;
+  esac
+
+  # agent state changes far more often than the status-interval tick, so this
+  # is a job that never exits: tmux keeps the most recent line of a running
+  # command and redraws the status line as new lines arrive, capped at once a
+  # second
+  while true; do
+    "$bin" status | sed "s/#\[default\]/#[fg=$fg]/g"
+    echo
+    sleep "$rate"
+  done
 }
 
 # run main driver
