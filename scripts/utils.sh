@@ -44,3 +44,20 @@ normalize_percent_len() {
   printf "%${left_spaces}s%s%${right_spaces}s\n" "" $1 ""
 }
 
+preserved_status_right() {
+  local current preserved patterns pattern re
+  current="$(tmux show-option -gqv status-right)"
+  patterns="$(get_tmux_option "@dracula-preserve-status-right" "continuum_save.sh")"
+  preserved=""
+  for pattern in $patterns; do
+    re="#\([^)]*${pattern}[^)]*\)"
+    while [[ "$current" =~ $re ]]; do
+      case "$preserved" in
+        *"${BASH_REMATCH[0]}"*) ;;
+        *) preserved+="${BASH_REMATCH[0]}" ;;
+      esac
+      current="${current/"${BASH_REMATCH[0]}"/}"
+    done
+  done
+  printf '%s' "$preserved"
+}

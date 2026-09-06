@@ -102,6 +102,12 @@ last_saved_timestamp() {
     else
       last_saved_timestamp="$first_save_timestamp"
     fi
+  else
+    local file_timestamp
+    file_timestamp="$(file_mtime "$(last_resurrect_file)")"
+    if [ -z "$last_saved_timestamp" ] || { [ "$file_timestamp" -gt "$last_saved_timestamp" ] 2>/dev/null; }; then
+      last_saved_timestamp="$file_timestamp"
+    fi
   fi
   echo "$last_saved_timestamp"
 }

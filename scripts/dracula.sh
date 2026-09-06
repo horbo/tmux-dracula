@@ -189,7 +189,7 @@ main() {
   fi
 
   # Status right
-  tmux set-option -g status-right ""
+  tmux set-option -g status-right "$(preserved_status_right)"
 
   for plugin in "${plugins[@]}"; do
 
