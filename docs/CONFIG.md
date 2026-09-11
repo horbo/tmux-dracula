@@ -6,6 +6,7 @@
 - [Status bar options](#status-bar-options---up)
   - [Powerline](#powerline---up)
   - [Left Icon](#left-icon---up)
+  - [Window icons](#window-icons---up)
 - [Color theming](/docs/color_theming/README.md)
 - [Plugins](#Plugins)
   - [agenmux](#agenmux---up)
@@ -173,6 +174,54 @@ additionally the left icons padding can be set like so:
 ```bash
 # default is 1, it can accept any number and 0 disables padding.
 set -g @dracula-left-icon-padding 1
+```
+
+### Window icons - [up](#table-of-contents)
+
+Prepends an icon for the program running in the window's active pane to every entry of the window list, so `1 nvim` becomes `1  nvim`. It requires a [Nerd Font](https://www.nerdfonts.com/) in your terminal.
+
+The icons are off by default, enable them with:
+
+```bash
+set -g @dracula-window-icons true
+```
+
+Commands can be added, or the builtin ones overridden, with a space separated list of `commands=icon` pairs. Several commands share one icon by separating them with `|`:
+
+```bash
+set -g @dracula-window-icons-map "claude=󰚩 gitui|jj=󰊢"
+```
+
+Your entries are matched before the builtin ones, so mapping a command that already has a builtin icon replaces it.
+
+A program that is in neither map gets no icon. To show a fallback icon for those instead:
+
+```bash
+set -g @dracula-window-icons-default "󰆍"
+```
+
+Its default is `false`, which leaves unknown programs without an icon.
+
+Like the zoom-indicator this is not a background job, it renders a tmux format directly. The icon therefore follows the active pane's program on every status redraw and `@dracula-refresh-rate` has no effect on it. The format is built once, while the theme loads, so changing any of the options above only takes effect after you reload your configuration.
+
+The builtin map:
+
+```
+zsh|bash|fish|sh|dash=󰆍
+nvim=
+vim|vi=
+claude=󰚩
+lazygit|git|tig=󰊢
+ssh|mosh=󰣀
+docker|lazydocker=󰡨
+python|python3|ipython=
+node|bun|deno=󰎙
+htop|btop|top=󰍛
+kubectl|k9s=󱃾
+cargo=
+go=
+make=󰒓
+man|less|bat=󰈙
 ```
 
 ## [Color Theming](/docs/color_theming/README.md) - [up](#table-of-contents)

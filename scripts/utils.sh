@@ -21,6 +21,15 @@ get_label() {
   echo "$label"
 }
 
+# labels are embedded into a tmux format string, so the format metacharacters
+# have to be neutralized before interpolation
+escape_label() {
+  local label="$1"
+  label="${label//,/#,}"
+  label="${label//\}/#\}}"
+  echo "$label"
+}
+
 get_tmux_window_option() {
   local option="$1"
   local default_value="$2"

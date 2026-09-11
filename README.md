@@ -20,6 +20,7 @@ In depth configuration of Colors and alternative themes can be found [in the doc
 
 - Support for powerline
 - Support for NerdFonts
+- Program icons next to window names (Nerd Font glyph per running command, opt-in)
 - Day, date, time, timezone
 - [Fully custom color theming](/docs/color_theming/README.md)
 - Current location based on network with temperature and forecast icon (if available)
