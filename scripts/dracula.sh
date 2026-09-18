@@ -25,6 +25,7 @@ main() {
   show_powerline=$(get_tmux_option "@dracula-show-powerline" false)
   transparent_powerline_bg=$(get_tmux_option "@dracula-transparent-powerline-bg" false)
   show_flags=$(get_tmux_option "@dracula-show-flags" false)
+  show_window_icons=$(get_tmux_option "@dracula-window-icons" false)
   show_left_icon=$(get_tmux_option "@dracula-show-left-icon" smiley)
   show_left_icon_padding=$(get_tmux_option "@dracula-left-icon-padding" 1)
   show_military=$(get_tmux_option "@dracula-military-time" false)
@@ -416,14 +417,21 @@ main() {
 
   done
 
-  # Window option
-  if $show_powerline; then
-    tmux set-window-option -g window-status-current-format "#[fg=${window_sep_fg}]#[bg=${window_sep_bg}]${window_sep}#[fg=${white}]#[bg=${dark_purple}] #I #W${current_flags} #[fg=${dark_purple}]#[bg=${bg_color}]${left_sep}"
-  else
-    tmux set-window-option -g window-status-current-format "#[fg=${white}]#[bg=${dark_purple}] #I #W${current_flags} "
+  window_icon=""
+  if $show_window_icons; then
+    # emits a tmux format, not a job: the running program has to render on every
+    # status redraw, not on the status-interval tick
+    window_icon="$("$current_dir"/window_icons.sh)"
   fi
 
-  tmux set-window-option -g window-status-format "#[fg=${white}]#[bg=${bg_color}] #I #W${flags}"
+  # Window option
+  if $show_powerline; then
+    tmux set-window-option -g window-status-current-format "#[fg=${window_sep_fg}]#[bg=${window_sep_bg}]${window_sep}#[fg=${white}]#[bg=${dark_purple}] #I ${window_icon}#W${current_flags} #[fg=${dark_purple}]#[bg=${bg_color}]${left_sep}"
+  else
+    tmux set-window-option -g window-status-current-format "#[fg=${white}]#[bg=${dark_purple}] #I ${window_icon}#W${current_flags} "
+  fi
+
+  tmux set-window-option -g window-status-format "#[fg=${white}]#[bg=${bg_color}] #I ${window_icon}#W${flags}"
   tmux set-window-option -g window-status-activity-style "bold"
   tmux set-window-option -g window-status-bell-style "bold"
 }
